@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 from ESL import ESL, ms2tick
 from time import sleep
 

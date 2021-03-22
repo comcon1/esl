@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 import usb, struct, sys
 ms2tick = 12e3/256
 
@@ -162,7 +165,7 @@ if __name__=="__main__":
   import os.path
 
   active_input = None
-  
+
   def set_active_input(event):
     global active_input
     active_input = event.widget.esl_input_name
@@ -170,7 +173,7 @@ if __name__=="__main__":
 
   def adjust_params(event):
     global p_inputs, p_limits
-    
+
     # get updated input name into k
     if type(event) is str:
       k=event
@@ -192,7 +195,7 @@ if __name__=="__main__":
       if pval > mx/c: pval=mx/c
       ptxt=fmt % pval
       p_inputs[k].set(ptxt)
-      
+
       # set conjugate param value
       if k in ms2hz.keys():
         p_inputs[ms2hz[k]].set(p_limits[ms2hz[k]]['fmt'] % (1e3/pval))

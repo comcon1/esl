@@ -1,8 +1,11 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 from numpy import loadtxt, zeros
 
 def load(fn):
 	tv = loadtxt(fn)
-	
+
 	for i in xrange(tv.shape[0]):
 		if tv[i,1] == 0:
 			tv = tv[i:]
