@@ -23,7 +23,7 @@ esl.set_params(**p)
 
 t = time() + period
 while True:
-	print >> sys.stdout, time()
+	print( time() )
 	sys.stdout.flush()
 	esl.single()
 	while (time() < t):

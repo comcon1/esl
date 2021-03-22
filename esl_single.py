@@ -6,10 +6,10 @@ from time import sleep
 from ESL import ESL, ms2tick
 
 if len(sys.argv) < 2:
-	print """
+	print( """
 USAGE: %s NUMBER
 	NUMBER - pulse duration in seconds, e.g. 4.2.
-""" % sys.argv[0]
+""" % sys.argv[0] )
 	exit(1)
 
 # parse user-supplied number of seconds

@@ -38,12 +38,12 @@ class usbstub:
     pass
 
   def controlMsg(self, reqtype, req, l, timeout):
-    print "(%d)"%req
+    print("(%d)" % req)
     if type(l) is int:
       return tuple(range(l))
     else:
-      for s in l: print "%02X"%ord(s),
-      print ""
+      for s in l: print( "%02X" % ord(s), end='')
+      print("")
       return 0
 
 class ESL:
@@ -66,10 +66,10 @@ class ESL:
           devh = dev.open()
           if devh.getString(dev.iManufacturer, len(self.Manufacturer)) == self.Manufacturer and  devh.getString(dev.iProduct, len(self.Product)) == self.Product:
             self.devh = devh
-            print "Device found."
+            print("Device found.")
     if not self.devh:
       if self.usestub:
-        print "WARNING: Device NOT found! Using software stub."
+        print("WARNING: Device NOT found! Using software stub.")
         self.devh=usbstub()
         self.ver = V1
         self.fmt = FMT[self.ver]
@@ -85,7 +85,7 @@ class ESL:
       else:
         self.ver = struct.unpack("<H", list2str(r[:2]))[0]
 
-      print "Firmware ver.%d, params size = %d" % (self.ver, self.psz)
+      print("Firmware ver.%d, params size = %d" % (self.ver, self.psz) )
       if (self.psz != PSZ[self.ver]):
         raise NameError, "Device v.%d returned parameters block of incorrect size %d" % (self.ver, self.psz)
       self.fmt = FMT[self.ver]
@@ -101,7 +101,7 @@ class ESL:
           r=self.devh.controlMsg(usb.TYPE_VENDOR | usb.RECIP_DEVICE | usb.ENDPOINT_IN, cmd,buf,timeout=500)
         ok=True
       except usb.USBError as usberr:
-        print "USBError:", usberr
+        print( "USBError:", usberr )
         self.reconnect()
       except AttributeError:
         self.reconnect()
@@ -223,7 +223,7 @@ if __name__=="__main__":
     for k in p_inputs.keys():
       v=p_inputs[k].get()
       if not len(v): v="0"
-      print >>fd, "%s %s"%(k,v)
+      fd.write( "%s %s\n" % (k,v) )
     fd.close()
 
   def apply_params():
