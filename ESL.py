@@ -75,7 +75,7 @@ class ESL:
         self.fmt = FMT[self.ver]
         self.psz = struct.calcsize(self.fmt)
       else:
-        raise NameError, "Device not found. Fire up your soldering iron, hacker!"
+        raise NameError("Device not found. Fire up your soldering iron, hacker!")
     else:
       # detect firmware version
       r = self.cmd(CMD_GETPARAMS, 100)
@@ -87,7 +87,8 @@ class ESL:
 
       print("Firmware ver.%d, params size = %d" % (self.ver, self.psz) )
       if (self.psz != PSZ[self.ver]):
-        raise NameError, "Device v.%d returned parameters block of incorrect size %d" % (self.ver, self.psz)
+        raise NameError("Device v.%d returned parameters block of incorrect size %d"
+                        % (self.ver, self.psz) )
       self.fmt = FMT[self.ver]
 
   def cmd(self, cmd, buf=0):
@@ -128,16 +129,16 @@ class ESL:
 
     for k in params_list:
       if not k in p.keys():
-        raise NameError, "Not enough arguments: %s is missing" % k
+        raise NameError("Not enough arguments: %s is missing" % k)
 
     if (reduce(lambda a, b: a or b,
                map(lambda k: p[k] < 1 or p[k] > params_max[k],
                    params_list))):
-      raise NameError, "Parameter(s) value(s) are out of bounds"
+      raise NameError("Parameter(s) value(s) are out of bounds")
 
     if (p['n'] * p['t1'] > p['t'] or
         p['w'] > p['t1']):
-      raise NameError, "Inconsistent parameters values"
+      raise NameError("Inconsistent parameters values")
 
     self.cmd(CMD_PARAMS, struct.pack(self.fmt, *map(lambda k: p[k], params_list)))
 
@@ -158,9 +159,11 @@ class ESL:
     self.cmd(CMD_TRIG_DIS)
 
 if __name__=="__main__":
-  from Tkinter import *
-  from tkMessageBox import showerror,showinfo
-  import tkFont, tkFileDialog
+  from tkinter import *
+  import tkinter
+  from tkinter.messagebox import showerror,showinfo
+  import tkinter.font as tkFont
+  import tkinter.filedialog as tkFileDialog
   from time import time,sleep
   import os.path
 
@@ -238,13 +241,13 @@ if __name__=="__main__":
       esl.set_params(**p_vals)
     except:
       showerror("ERROR", sys.exc_info()[1])
-      raise NameError, "Failed to update stimulation parameters."
+      raise NameError("Failed to update stimulation parameters.")
 
   def start():
     global esl
     try:
       apply_params()
-    except NameError, err:
+    except NameError as err:
       showerror("ERROR", err)
     else:
       esl.start()
@@ -254,7 +257,7 @@ if __name__=="__main__":
     esl.stop()
     try:
       apply_params()
-    except NameError, err:
+    except NameError as err:
       showerror("ERROR", err)
     else:
       esl.single()
